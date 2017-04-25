@@ -1,0 +1,52 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="home-view">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        padding: 10px;
+      }
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+      }
+
+    </style>
+    <div class="card card-container">
+      <h1>Glynsight</h1>
+      <p>Glynsight helps you visualize and interactively compare your glycan expression profiles.
+        The tool was initially developed with a focus on IgG N-glycan profiles but it was extended to usage with any experiment, which produces N- or O-linked glycan expression data.
+      <p><img src="../images/homegif.gif" /></p>
+      </p>
+    </div>
+    <div class="card card-container">
+      <h1>Acknowledgements</h1>
+      <p><img src="../images/logos.png" /></p>
+      <p>Glynsight was developed by the Proteome Informatics Group at SIB Swiss Institute of Bioinformatics in collaboration with David Falck and Manfred Wuhrer of the Leiden University Medical Center, Netherlands.</p>
+      <p>This work was supported by European Union FP7 GastricGlycoExplorer Innovative Training Network under Grant Agreement No. 316929.</p>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'home-view'
+    });
+  </script>
+</dom-module>
