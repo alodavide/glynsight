@@ -9,6 +9,7 @@
   ],
   "sources": [
     "src/**/*",
+    "images/tour/*",
     "images/**/*",
     "bower.json"
   ],
