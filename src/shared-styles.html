@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 
 <!-- shared styles for all views -->
 <dom-module id="shared-styles">
@@ -36,12 +36,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 22px;
       }
 
-      paper-toolbar {
+      app-toolbar {
         color: #fff;
         background-color: #e2011b;
       }
 
-      paper-toolbar.footer {
+      app-toolbar.footer {
         --paper-toolbar-height: 50px;
         @apply(--paper-font-common-base);
         -webkit-font-smoothing: antialiased;
@@ -52,14 +52,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: static;
       }
 
-      paper-toolbar.footer a{
+      app-toolbar.footer a{
         color: #f1f1f1;
       }
 
-      paper-toolbar.footer a:hover{
+      app-toolbar.footer a:hover{
         text-decoration: underline;
       }
-
     </style>
   </template>
 </dom-module>

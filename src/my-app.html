@@ -8,7 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
@@ -18,12 +18,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/experiment-storage/experiment-storage.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
-<script type="text/javascript" src="../bower_components/d3/d3.min.js"></script>
 
+
+<link rel="import" href="../bower_components/experiment-storage/experiment-storage.html">
+
+<link rel="lazy-import" href="home-view.html">
+<link rel="lazy-import" href="about-view.html">
+<link rel="lazy-import" href="tool-view.html">
+<link rel="lazy-import" href="error404-view.html">
 
 <dom-module id="my-app">
   <template>
@@ -35,10 +40,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
 
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
+      }
+
       app-header {
         color: #fff;
         background-color: grey;
       }
+      app-header paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
@@ -49,13 +62,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       .drawer-list a {
         display: block;
-
         padding: 0 16px;
-
         text-decoration: none;
-
         color: var(--app-secondary-color);
-
         line-height: 40px;
       }
 
@@ -96,7 +105,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app-drawer{
         bottom: -55px;
       }
-      paper-toolbar.footer {
+
+      app-toolbar.footer {
         --paper-toolbar-height: 50px;
         @apply(--paper-font-common-base);
         -webkit-font-smoothing: antialiased;
@@ -107,12 +117,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         position: static;
       }
 
-      paper-toolbar.footer a{
+      app-toolbar.footer a{
         color: #f1f1f1;
         text-decoration: none;
       }
 
-      paper-toolbar.footer a:hover{
+      app-toolbar.footer a:hover{
         text-decoration: underline;
       }
 
@@ -121,14 +131,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         bottom: 0;
       }
 
+      .logo{
+        max-width: 50px;
+        margin-right: 5px;
+      }
+
     </style>
 
-    <app-location  route="{{route}}"></app-location>
+    <app-location route="{{route}}" url-space-regex="^[[rootPath]]"></app-location>
     <app-route
-        route="{{route}}"
-        pattern="/glynsight/:page"
-        data="{{routeData}}"
-        tail="{{subroute}}">
+            route="{{route}}"
+            pattern="[[rootPath]]:page"
+            data="{{routeData}}"
+            tail="{{subroute}}">
     </app-route>
 
     <app-route
@@ -137,10 +152,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             data="{{subrouteData}}">
     </app-route>
 
-
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
-      <app-drawer>
+      <app-drawer id="drawer" slot="drawer">
         <app-toolbar>
           <div class="expasyLogoContainer">
             <a id="expasy_logo" href="http://www.expasy.org" title="ExPASy - SIB Bioinformatics Resource Portal"></a>
@@ -148,73 +162,99 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </app-toolbar>
         <div style="height: 100%; overflow: auto;">
-          <experiment-storage id='storage' selected-experiment="[[subrouteData]]"></experiment-storage>
+          <experiment-storage id='storage' selected-experiment="{{subrouteData.exp}}" view-mode="{{subrouteData.mode}}" root-path="[[rootPath]]"></experiment-storage>
         </div>
       </app-drawer>
 
       <!-- Main content -->
+      <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
-        <app-header condenses>
+        <app-header slot="header" condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+            <img class="logo" src="[[rootPath]]images/glynsight.png"/>
             <div main-title>Glynsight</div>
-            <a href="/glynsight/"><paper-icon-button title="Homepage" icon="home"></paper-icon-button></a>
-            <a href="/glynsight/about"><paper-icon-button title="Quick tour of Glynsight" icon="help"></paper-icon-button></a>
+            <a href="[[rootPath]]"><paper-icon-button title="Homepage" icon="home"></paper-icon-button></a>
+            <a href="[[rootPath]]about"><paper-icon-button title="Quick tour of Glynsight" icon="help"></paper-icon-button></a>
             <a href="http://web.expasy.org/contact.html?subject=Glynsight_Feedback"><paper-icon-button title="Contact Us" icon="mail"></paper-icon-button></a>
           </app-toolbar>
         </app-header>
 
         <iron-pages style="min-height:100%; position:relative;"
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="error404"
-            role="main">
-          <tool-view name="tool" selected-experiment="[[subrouteData]]" ></tool-view>
+                    selected="[[page]]"
+                    attr-for-selected="name"
+                    fallback-selection="error404"
+                    role="main">
+          <tool-view name="tool" route="[[subroute]]" ></tool-view>
           <home-view name="home"></home-view>
           <about-view name="about"></about-view>
           <error404-view name="error404"></error404-view>
         </iron-pages>
-        <paper-toolbar class="footer">
+        <app-toolbar class="footer">
           <span><a href="http://www.isb-sib.ch">SIB Swiss Institute of Bioinformatics</a>, All Rights Reserved</span>
-        </paper-toolbar>
+        </app-toolbar>
       </app-header-layout>
     </app-drawer-layout>
   </template>
 
   <script>
-    Polymer({
-      is: 'my-app',
+    class MyApp extends Polymer.Element {
 
-      properties: {
-        page: {
-          type: String,
-          reflectToAttribute: true,
-          observer: '_pageChanged'
+      static get is() { return 'my-app'; }
+
+      static get properties() {
+        return {
+          page: {
+            type: String,
+            reflectToAttribute: true,
+            observer: '_pageChanged',
+          },
+          rootPattern: String,
+          routeData: Object,
+          subroute: String,
+          subrouteData: Object
+        };
+      }
+
+      static get observers() {
+        return [
+          '_routePageChanged(routeData.page)',
+        ];
+      }
+
+      _routePageChanged(page) {
+        // Polymer 2.0 will call with `undefined` on initialization.
+        // Ignore until we are properly called with a string.
+        if (page === undefined) {
+          return;
         }
-      },
 
-      observers: [
-        '_routePageChanged(routeData.page)'
-      ],
-
-      _routePageChanged: function(page) {
+        // If no page was found in the route data, page will be an empty string.
+        // Deault to 'view1' in that case.
         this.page = page || 'home';
-      },
 
-      _pageChanged: function(page) {
+        // Close a non-persistent drawer when the page & route are changed.
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
+      }
+
+      _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
-	if(page == 'home' || page == 'tool' ||page == 'about' ||page == 'error404'){
-            var resolvedPageUrl = this.resolveUrl('' + page + '-view.html');
-            this.importHref(resolvedPageUrl, null, this._showPage404, true);
-	} else {
-	    this._showPage404();
-	}
-      },
+        var resolvedPageUrl = this.resolveUrl(page + '-view.html');
+        Polymer.importHref(
+            resolvedPageUrl,
+            null,
+            this._showPage404.bind(this),
+            true);
+      }
 
-      _showPage404: function() {
+      _showPage404() {
         this.page = 'error404';
       }
-    });
+    }
+
+    window.customElements.define(MyApp.is, MyApp);
   </script>
 </dom-module>

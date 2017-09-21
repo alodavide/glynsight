@@ -8,8 +8,7 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="home-view">
@@ -29,24 +28,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
     </style>
+
     <div class="card card-container">
       <h1>Glynsight</h1>
       <p>Glynsight helps you visualize and interactively compare your glycan expression profiles.
         The tool was initially developed with a focus on IgG N-glycan profiles but it was extended to usage with any experiment, which produces N- or O-linked glycan expression data.
-      <p><img src="../images/homegif.gif" /></p>
+      <p><img src="[[rootPath]]images/homegif.gif" /></p>
       </p>
     </div>
     <div class="card card-container">
       <h1>Acknowledgements</h1>
-      <p><img src="../images/logos.png" /></p>
+      <p><img src="[[rootPath]]images/logos.png" /></p>
       <p>Glynsight was developed by the Proteome Informatics Group at SIB Swiss Institute of Bioinformatics in collaboration with David Falck and Manfred Wuhrer of the Leiden University Medical Center, Netherlands.</p>
       <p>This work was supported by European Union FP7 GastricGlycoExplorer Innovative Training Network under Grant Agreement No. 316929.</p>
     </div>
   </template>
 
   <script>
-    Polymer({
-      is: 'home-view'
-    });
+    class HomeView extends Polymer.Element {
+      static get is() { return 'home-view'; }
+    }
+
+    window.customElements.define(HomeView.is, HomeView);
   </script>
 </dom-module>

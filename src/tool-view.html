@@ -8,57 +8,84 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/experiment-storage/experiment-storage.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+<link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/sankey-composition/sankey-composition.html">
 <link rel="import" href="../bower_components/structure-display/structure-display.html">
-<link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
-<link rel="import" href="shared-styles.html">
+
 
 <dom-module id="tool-view">
   <template>
     <style include="shared-styles">
       :host {
         display: block;
+
         padding: 10px;
       }
 
-
+      .text {
+        @apply --paper-font-common-base;
+      }
     </style>
 
+    <app-route
+            route="{{route}}"
+            pattern="/:mode/:exp"
+            data="{{routeData}}">
+    </app-route>
+
+
     <div class="card">
-      <paper-toolbar>
-        <div class="title">Visualizer</div>
+      <app-toolbar>
+        <div main-title spacer class="text">Visualizer</div>
         <paper-icon-button icon="file-download" on-tap="download"></paper-icon-button>
-      </paper-toolbar>
+      </app-toolbar>
       <div class="card-container">
-        <sankey-composition id='sankey' selected-structure="{{selectedStructure}}" selected-experiment="[[selectedExperiment]]"></sankey-composition>
+        <sankey-composition id='sankey' selected-experiment="{{selectedExperiment}}" mode="{{routeData.mode}}" selected-structure="{{selectedStructure}}"></sankey-composition>
       </div>
     </div>
 
     <div class="card">
-      <paper-toolbar>
-        <div class="title">Structures</div>
-      </paper-toolbar>
+      <app-toolbar>
+        <div main-title spacer class="text">Structures</div>
+      </app-toolbar>
       <div class="card-container">
-        <structure-display selected-structure="[[selectedStructure]]"></structure-display>
+        <structure-display selected-structure="[[selectedStructure]]" show-extraction="true"></structure-display>
       </div>
     </div>
   </template>
-
   <script>
-    Polymer({
-      is: 'tool-view',
-      properties:{
-        selectedStructure: String,
-        selectedExperiment: String
-      },
+    class ToolView extends Polymer.Element {
+      static get is() { return 'tool-view'; }
 
-      download: function(){
-        this.$.sankey.downloadSankey();
+      static get properties() {
+        return {
+          route: {
+            type: Object,
+            reflectToAttribute: true
+          },
+          routeData: {
+            type: Object,
+            reflectToAttribute: true,
+            observer: '_routeDataChanged'
+          }
+        };
       }
-    });
+
+      _routeDataChanged(data){
+        if(data.mode == 'show') {
+          this.selectedExperiment = [this.routeData.exp];
+        } else {
+          this.selectedExperiment = this.routeData.exp.split('_');
+        }
+      }
+    }
+
+    window.customElements.define(ToolView.is, ToolView);
   </script>
 </dom-module>
