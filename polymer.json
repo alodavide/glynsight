@@ -11,6 +11,7 @@
     "src/**/*",
     "images/tour/*",
     "images/**/*",
+    "resources/**/*",
     "bower.json"
   ],
   "extraDependencies": [
