@@ -162,7 +162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
         </app-toolbar>
         <div style="height: 100%; overflow: auto;">
-          <experiment-storage id='storage' selected-experiment="{{subrouteData.exp}}" view-mode="{{subrouteData.mode}}" root-path="[[rootPath]]"></experiment-storage>
+          <experiment-storage id='storage' root-path="[[rootPath]]" selected-experiment="{{subrouteData.exp}}" view-mode="{{subrouteData.mode}}" root-path="[[rootPath]]"></experiment-storage>
         </div>
       </app-drawer>
 
@@ -210,7 +210,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             reflectToAttribute: true,
             observer: '_pageChanged',
           },
-          rootPattern: String,
           routeData: Object,
           subroute: String,
           subrouteData: Object

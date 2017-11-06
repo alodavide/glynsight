@@ -16,13 +16,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
     <title>Glynsight - Expasy</title>
-    <meta name="description" content="My App description">
+    <meta name="description" content="Glynsight is a web interface to upload, visualize and interactively compare glycan expression profiles.
+     The tool can process N- or O-linked glycan expression data.">
 
     <!--
       If deploying to a non-root path, replace href="/" with the full path to the project root.
       For example: href="/polymer-starter-kit/relative-path-example/"
     -->
-    <base href="/">
+    <base href="/glynsight/">
 
     <link rel="icon" href="images/favicon.ico">
 
@@ -66,7 +67,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * to indicate the path from which you'll be serving, including leading
        * and trailing slashes (e.g., `/my-app/`).
        */
-      window.Polymer = {rootPath: '/'};
+      window.Polymer = {
+        rootPath: '/glynsight/',
+        apiServer: 'https://glyconnect.expasy.org'
+      };
       // Load and register pre-caching Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {

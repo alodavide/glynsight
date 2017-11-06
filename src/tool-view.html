@@ -55,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div main-title spacer class="text">Structures</div>
       </app-toolbar>
       <div class="card-container">
-        <structure-display selected-structure="[[selectedStructure]]" show-extraction="true"></structure-display>
+        <structure-display api-server="[[apiServer]]" selected-structure="[[selectedStructure]]" show-extraction="true"></structure-display>
       </div>
     </div>
   </template>
@@ -73,6 +73,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: Object,
             reflectToAttribute: true,
             observer: '_routeDataChanged'
+          },
+          apiServer:{
+            type: String,
+            value: Polymer.apiServer
           }
         };
       }
