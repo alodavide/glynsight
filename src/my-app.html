@@ -220,6 +220,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       static get observers() {
         return [
           '_routePageChanged(routeData.page)',
+          '_analyticsTrigger(route.path)'
         ];
       }
 
@@ -252,6 +253,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _showPage404() {
         this.page = 'error404';
+      }
+
+      _analyticsTrigger(){
+        ga('set', 'page', window.location.pathname);
+        ga('send', 'pageview');
       }
     }
 
